@@ -11,8 +11,23 @@
 |
 */
 
-//Route::get('/', function () {
-//    return view('welcome');
-//});
+Route:get('/', function() {
 
-Route:get('/', 'MainController@index');
+    // check request type
+    if (Request::ajax())
+    {
+        $file = 'Json/data.json';   // path to Json file
+        $data = '';                 // Json data
+        
+        // check that the file is exist
+        if (Storage::exists($file))
+        {
+            // read data from the file
+            $data = Storage::get($file);
+        }
+        // return Json data
+        return $data;
+    }
+    // return a page
+    return view('index');
+});
